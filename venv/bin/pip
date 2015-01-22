@@ -1,4 +1,4 @@
-#!/home/ungsikyun/Private_projects/scrapy-forum/venv/bin/python2.7
+#!/home/ungsik/Projects/scrapy-forum/venv/bin/python
 
 # -*- coding: utf-8 -*-
 import re
