@@ -1,2 +1,2 @@
 # scrapy-forum
-python scrapy test repo
+python scrapy for https://forums.oneplus.net/
