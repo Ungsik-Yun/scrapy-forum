@@ -7,30 +7,28 @@
 
 import scrapy
 
-
-class OneplusoneItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
-
 class ForumUser(scrapy.Item):
-	'''
-	example)
-	https://forums.oneplus.net/members/karan-kadakia.481070/
-	'''
-	pass
+    """
+    example)
+    https://forums.oneplus.net/members/karan-kadakia.481070/
+    """
+    user_id = scrapy.Field()
 
 class ForumThread(scrapy.Item):
-	'''
-	example)
-	https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/
-	https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/page-2
-	'''
-	pass
+    """
+    example)
+    https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/
+    https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/page-2
+    """
 
-class TheOneForum(scrapy.Item):
-	pass
+    title = scrapy.Field()
+    url = scrapy.Field()
+    date = scrapy.Field()
 
+class ThreadComment(scrapy.Item):
+    user = scrapy.Field()
+    date = scrapy.Field()
+    parent_thread = scrapy.Field()
 
 
 
