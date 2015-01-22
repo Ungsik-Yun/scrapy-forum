@@ -20,7 +20,7 @@ class ForumThread(scrapy.Item):
     https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/
     https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/page-2
     """
-
+    forum = scrapy.Field()
     title = scrapy.Field()
     url = scrapy.Field()
     date = scrapy.Field()
