@@ -9,6 +9,9 @@ import scrapy
 
 
 class ThreadComment(scrapy.Item):
+    """
+    define item structure for crawl
+    """
     forum_name = scrapy.Field()
     thread_title = scrapy.Field()
     thread_url = scrapy.Field()
