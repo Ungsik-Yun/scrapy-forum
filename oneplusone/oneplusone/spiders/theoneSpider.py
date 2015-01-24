@@ -4,7 +4,7 @@ __author__ = 'ungsik'
 from scrapy import Spider
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors import LinkExtractor
-from oneplusone.items import ForumThread
+from oneplusone.items import ThreadComment
 
 class TheoneSpider(CrawlSpider):
 
@@ -13,17 +13,17 @@ class TheoneSpider(CrawlSpider):
     allowed_domains = ["forums.oneplus.net"]
 
     start_urls = [
-        # "https://forums.oneplus.net/forums/announcements/",
-        # "https://forums.oneplus.net/forums/contests/",
+        "https://forums.oneplus.net/forums/announcements/",
+        "https://forums.oneplus.net/forums/contests/",
         "https://forums.oneplus.net/forums/the-one/",
-        # "https://forums.oneplus.net/forums/cyanogenmod-11s/",
-        # "https://forums.oneplus.net/forums/dev-roms/",
-        # "https://forums.oneplus.net/forums/accessories/",
-        # "https://forums.oneplus.net/forums/invites/",
-        # "https://forums.oneplus.net/forums/off-topic/",
-        # "https://forums.oneplus.net/forums/introduce-yourself/",
-        # "https://forums.oneplus.net/forums/tech-talk/",
-        # "https://forums.oneplus.net/forums/fan-gatherings/",
+        "https://forums.oneplus.net/forums/cyanogenmod-11s/",
+        "https://forums.oneplus.net/forums/dev-roms/",
+        "https://forums.oneplus.net/forums/accessories/",
+        "https://forums.oneplus.net/forums/invites/",
+        "https://forums.oneplus.net/forums/off-topic/",
+        "https://forums.oneplus.net/forums/introduce-yourself/",
+        "https://forums.oneplus.net/forums/tech-talk/",
+        "https://forums.oneplus.net/forums/fan-gatherings/",
     ]
 
     rules = (
@@ -31,36 +31,26 @@ class TheoneSpider(CrawlSpider):
     )
 
 
-    @classmethod
-    def parse_forum(response):
-        threads_list = response.xpath('//div[@class="titleText"]')
-        for thread in threads_list:
-            item = ForumThread()
-            item['forum'] = response.xpath('//div[@class="titleBar"]/h1/text()').extract()
-            item['title'] = thread.xpath('.//a[@class="PreviewTooltip"]/text()').extract()
-            item['url'] = thread.xpath('.//a[@class="PreviewTooltip"]/@href').extract()
-
-            # 날짜를 추출. 각 쓰레드는 1~2개의 날짜를 가질 수 있는데, 처음 것은 쓰여진 날, 두번째는 마지막 리플레이가 달린 날이다.
-            # temp_date = thread.xpath('.//a[@class="faint"]/abbr[@class="DateTime"]/text()').extract()
-            #
-            # if temp_date:
-            #     item['date'] = thread.xpath('.//a[@class="dateTime"]/abbr[@class="DateTime"]/text()').extract()
-            # else:
-            #     item['date'] = temp_date
-
-            item['date'] = thread.xpath('.//abbr[@class="DateTime"]/text()').extract()
-
-
-            print item
-        return item
-
     def parse_thread(self, response):
-        item = ForumThread()
-        item['forum'] = response.xpath('//*[@id="top"]/div/div/div[1]/nav/fieldset/span/span[3]/a/span/text()').extract()
-        item['title'] = response.xpath('//*[@id="top"]/div/div/div[2]/h1/text()').extract()
-        item['url'] = response.url
-        # item['date'] = thread.xpath('.//abbr[@class="DateTime"]/text()').extract()
 
-        print item
-        return item
+        items = []
+
+        forum_name = response.xpath('//*[@id="top"]/div/div/div[1]/nav/fieldset/span/span[3]/a/span/text()').extract()
+        thread_title = response.xpath('//*[@id="top"]/div/div/div[2]/h1/text()').extract()
+        thread_url = response.url
+
+        comment_list = response.xpath('//li[@class="message   "]')
+
+        for comment in comment_list:
+            item = ThreadComment()
+            item['user_url'] = comment.xpath('.//h3/a[@class="username"]/@href').extract()
+            item['date'] = comment.xpath('.//*[@class="DateTime"]/text()').extract()
+
+            item['forum_name'] = forum_name
+            item['thread_title'] = thread_title
+            item['thread_url'] = thread_url
+
+            items.append(item)
+            # print item
+        return items
 

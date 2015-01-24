@@ -7,28 +7,13 @@
 
 import scrapy
 
-class ForumUser(scrapy.Item):
-    """
-    example)
-    https://forums.oneplus.net/members/karan-kadakia.481070/
-    """
-    user_id = scrapy.Field()
-
-class ForumThread(scrapy.Item):
-    """
-    example)
-    https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/
-    https://forums.oneplus.net/threads/faq-frequently-asked-questions-including-carrier-compatibility.7195/page-2
-    """
-    forum = scrapy.Field()
-    title = scrapy.Field()
-    url = scrapy.Field()
-    date = scrapy.Field()
 
 class ThreadComment(scrapy.Item):
-    user = scrapy.Field()
+    forum_name = scrapy.Field()
+    thread_title = scrapy.Field()
+    thread_url = scrapy.Field()
     date = scrapy.Field()
-    parent_thread = scrapy.Field()
+    user_url = scrapy.Field()
 
 
 
